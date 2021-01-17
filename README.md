@@ -1,6 +1,6 @@
 # :arrow_right_hook: TelegramRedirect
 
-<p align="center"><img height="150" width="auto" src=https://telegram.org/img/t_logo.svg" /></p>
+<p align="center"><img height="150" width="auto" src="https://telegram.org/img/t_logo.svg" /></p>
 <p align="center"><b>URL Redirect based on Telegram Bot command </b></p>
 <hr>
 
