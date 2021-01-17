@@ -10,6 +10,9 @@ let cors = require("cors");
 let bodyParser = require("body-parser");
 let helmet = require("helmet");
 
+// Services
+let watcher = require("./services/telegramBot");
+
 // Utils
 let conf = require("./utils/configHandler");
 let log = require("./utils/logger");
@@ -25,10 +28,10 @@ console.log(
     " #" + "-".repeat(14 + appname.length + version.toString().length) + "#\n"
 );
 
-let app = express();
-
 log.info(`Starte ${appname}...`);
 const config = conf.getConfig();
+
+let app = express();
 
 app.enable("trust proxy");
 
@@ -41,6 +44,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 process.on("unhandledRejection", (err, promise) => {
     log.error("Unhandled rejection (promise: " + promise + ", reason: " + err + ")");
 });
+
+watcher(app);
 
 app.listen(app.get("port"), (err) => {
     if (err){
