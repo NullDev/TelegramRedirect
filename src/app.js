@@ -12,6 +12,7 @@ let helmet = require("helmet");
 
 // Services
 let watcher = require("./services/telegramBot");
+let noCache = require("./services/noCache");
 
 // Utils
 let conf = require("./utils/configHandler");
@@ -40,9 +41,11 @@ let app = express();
 
 app.enable("trust proxy");
 
+app.set("etag", false);
 app.set("port", portHandler(config.server.app_port));
 
 app.use(helmet());
+app.use(noCache());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
