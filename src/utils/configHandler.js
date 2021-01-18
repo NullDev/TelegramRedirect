@@ -37,7 +37,7 @@ let validJson = function(obj){
  */
 let getconfig = function(){
     if (!fs.existsSync(configPath)){
-        log.error("Config does not exist! Make sure you copy config.template.json and paste it as 'config.json'. Then configure it.");
+        log.error("Config does not exist! Make sure you copy config.template.json and paste it as 'config.json'. Then configure it. Exiting...");
         process.exit(1);
     }
 
