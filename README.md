@@ -6,7 +6,8 @@
 
 ## :question: What does it do?
 
-It's an express server that redirects to a custom URL specified by a telegram bot command.
+It's an express server that redirects to a custom URL specified by a telegram bot command. <br>
+Originally made for [@FunkoLive](https://github.com/FunkoLive)
 
 <hr>
 
