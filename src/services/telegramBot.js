@@ -4,6 +4,8 @@
 // = Copyright (c) NullDev = //
 // ========================= //
 
+/* eslint-disable curly */
+
 process.env.NTBA_FIX_319 = "1";
 
 // Dependencies
@@ -15,7 +17,8 @@ let log = require("../utils/logger");
 
 let bot = new TelegramBot(config.telegram.bot_token, { polling: true });
 
-let validUrl = url => !!(new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?")).test(url);
+const validUrl = url => !!(new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?")).test(url);
+const prefixMatch = new RegExp(`(${config.telegram.link_prefix})\\s?`, "gi");
 
 let URL = config.server.default_url;
 
@@ -24,16 +27,26 @@ module.exports = async function(app){
 
     log.info("Bot listening...");
     bot.on("message", async msg => {
-        if (String(msg.text).toLowerCase() === "/start") return bot.sendMessage(msg.chat.id, "Welcome!\nSend me an URL to which the server will redirect. 😄");
+        if (String(msg.text).toLowerCase() === "/start") return bot.sendMessage(msg.chat.id, config.telegram.messages.start, {
+            parse_mode: "Markdown"
+        });
 
-        if (!msg.text || !validUrl(msg.text)){
-            log.warn(`Invalid URL (${msg.text}) provided by User ${msg.from.username} (${msg.from.id})`);
-            return bot.sendMessage(msg.chat.id, "This seems like an Invalid URL. 😅 \nMake sure the URL's start with `http(s)://`", {
+        if (!(msg.text).includes(config.telegram.link_prefix)) return bot.sendMessage(msg.chat.id, config.telegram.messages.no_prefix_provided, {
+            parse_mode: "Markdown"
+        });
+
+        let uri = (msg.text).replace(prefixMatch, "");
+
+        if (!validUrl(uri)){
+            log.warn(`Invalid URL (${uri}) provided by User ${msg.from.username} (${msg.from.id})`);
+            return bot.sendMessage(msg.chat.id, config.telegram.messages.invalid_url, {
                 parse_mode: "Markdown"
             });
         }
-        log.info(`Set new URL to: ${msg.text}`);
-        URL = msg.text;
-        return bot.sendMessage(msg.chat.id, "New link has been set! 😁");
+        log.info(`Set new URL to: ${uri}`);
+        URL = uri;
+        return bot.sendMessage(msg.chat.id, config.telegram.messages.new_link_set, {
+            parse_mode: "Markdown"
+        });
     });
 };

@@ -1,6 +1,13 @@
 {
     "telegram": {
-        "bot_token": ""
+        "bot_token": "",
+        "link_prefix": "!-",
+        "messages": {
+            "start": "Welcome!\nSend me an URL to which the server will redirect. 😄",
+            "invalid_url": "This seems like an Invalid URL. 😅 \nMake sure the URL's start with `http(s)://`",
+            "no_prefix_provided": "Hmm... That didn't quite work. 😬",
+            "new_link_set": "New link has been set! 😁"
+        }
     },
     "server": {
         "app_port": 3000,
