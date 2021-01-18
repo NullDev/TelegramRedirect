@@ -31,11 +31,16 @@ console.log(
 log.info(`Starte ${appname}...`);
 const config = conf.getConfig();
 
+if ((config.telegram.bot_token).replace(/\s/g, "") === ""){
+    log.error("No Telegram Token specified in config. Exiting...");
+    process.exit(1);
+}
+
 let app = express();
 
 app.enable("trust proxy");
 
-app.set("port", portHandler(config.server.port));
+app.set("port", portHandler(config.server.app_port));
 
 app.use(helmet());
 app.use(cors());
