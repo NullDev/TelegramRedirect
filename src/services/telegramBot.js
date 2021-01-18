@@ -4,6 +4,8 @@
 // = Copyright (c) NullDev = //
 // ========================= //
 
+process.env.NTBA_FIX_319 = "1";
+
 // Dependencies
 let TelegramBot = require("node-telegram-bot-api");
 
